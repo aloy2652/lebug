@@ -1,0 +1,568 @@
+<!DOCTYPE html><html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ALDY V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }:root {
+  --bg1: #05010b;
+  --bg2: #14051f;
+  --card: rgba(17, 10, 28, 0.88);
+  --line: rgba(194, 110, 255, 0.35);
+  --line-strong: rgba(211, 135, 255, 0.7);
+  --purple: #b64cff;
+  --purple-2: #d47cff;
+  --text: #f5eeff;
+  --muted: #c7b2e8;
+  --danger: #ff6b9d;
+  --success: #5dffb8;
+  --warning: #ffd56a;
+  --shadow: 0 0 20px rgba(182, 76, 255, 0.22), 0 0 60px rgba(182, 76, 255, 0.1);
+}
+
+body {
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(146, 53, 240, 0.2), transparent 28%),
+    radial-gradient(circle at top right, rgba(198, 92, 255, 0.13), transparent 24%),
+    linear-gradient(160deg, var(--bg1), var(--bg2));
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.35));
+}
+
+.screen {
+  min-height: 100vh;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.screen.active {
+  display: flex;
+}
+
+.panel {
+  width: 100%;
+  max-width: 430px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+  position: relative;
+}
+
+.panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  padding: 1px;
+  background: linear-gradient(145deg, rgba(235,180,255,0.6), transparent 25%, transparent 75%, rgba(190,100,255,0.5));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.login-wrap {
+  padding: 30px 24px 26px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #f0d7ff;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(182, 76, 255, 0.14);
+  border: 1px solid rgba(212, 124, 255, 0.28);
+  margin-bottom: 18px;
+}
+
+.title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-shadow: 0 0 16px rgba(212, 124, 255, 0.35);
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #e8d3ff;
+  margin-bottom: 8px;
+}
+
+input, select {
+  width: 100%;
+  padding: 14px 15px;
+  border-radius: 16px;
+  border: 1px solid rgba(194, 110, 255, 0.22);
+  outline: none;
+  background: rgba(10, 7, 17, 0.85);
+  color: var(--text);
+  font-size: 14px;
+  transition: 0.25s ease;
+}
+
+input::placeholder {
+  color: #967db6;
+}
+
+input:focus, select:focus {
+  border-color: var(--line-strong);
+  box-shadow: 0 0 0 4px rgba(182, 76, 255, 0.12);
+}
+
+.btn {
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  border-radius: 18px;
+  padding: 15px 18px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  color: white;
+  background: linear-gradient(135deg, var(--purple), var(--purple-2));
+  box-shadow: 0 12px 24px rgba(182, 76, 255, 0.25);
+  transition: 0.25s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+.btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.login-note {
+  margin-top: 14px;
+  color: #bfa4de;
+  font-size: 12px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.error-box, .status-box {
+  margin-top: 14px;
+  border-radius: 16px;
+  padding: 12px 14px;
+  font-size: 13px;
+  display: none;
+  line-height: 1.6;
+}
+
+.error-box.show, .status-box.show {
+  display: block;
+  animation: fadeIn 0.25s ease;
+}
+
+.error-box {
+  background: rgba(255, 107, 157, 0.12);
+  border: 1px solid rgba(255, 107, 157, 0.28);
+  color: #ffc3d6;
+}
+
+.status-box {
+  background: rgba(182, 76, 255, 0.12);
+  border: 1px solid rgba(212, 124, 255, 0.28);
+  color: #ecd3ff;
+}
+
+.status-box.success {
+  background: rgba(93, 255, 184, 0.12);
+  border-color: rgba(93, 255, 184, 0.35);
+  color: #bfffe1;
+}
+
+.status-box.fail {
+  background: rgba(255, 107, 157, 0.12);
+  border-color: rgba(255, 107, 157, 0.28);
+  color: #ffd0de;
+}
+
+.dashboard {
+  padding: 20px;
+}
+
+.hero {
+  position: relative;
+  border-radius: 24px;
+  padding: 18px 18px 16px;
+  background: linear-gradient(180deg, rgba(24, 13, 40, 0.96), rgba(12, 8, 20, 0.96));
+  border: 1px solid rgba(194, 110, 255, 0.22);
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  right: -50px;
+  top: -60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(182, 76, 255, 0.28), transparent 70%);
+  pointer-events: none;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 10px;
+}
+
+.chip {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #f4ddff;
+  background: rgba(182, 76, 255, 0.14);
+  border: 1px solid rgba(212, 124, 255, 0.25);
+  border-radius: 999px;
+  padding: 7px 10px;
+}
+
+.logout-btn {
+  background: transparent;
+  color: #f0d7ff;
+  border: 1px solid rgba(212, 124, 255, 0.28);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.hero-center {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.avatar {
+  width: 118px;
+  height: 118px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid rgba(213, 140, 255, 0.7);
+  box-shadow: 0 0 24px rgba(182, 76, 255, 0.3);
+  margin-bottom: 14px;
+  background: #0a0611;
+}
+
+.main-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-shadow: 0 0 18px rgba(212, 124, 255, 0.4);
+  margin-bottom: 8px;
+}
+
+.main-sub {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.upload-note {
+  color: #bda5dd;
+  font-size: 11px;
+  margin-top: 8px;
+}
+
+.card {
+  border-radius: 24px;
+  border: 1px solid rgba(194, 110, 255, 0.22);
+  background: rgba(9, 5, 15, 0.7);
+  padding: 18px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+}
+
+.card h3 {
+  font-size: 14px;
+  margin-bottom: 14px;
+  letter-spacing: 0.4px;
+  color: #f1deff;
+}
+
+.helper {
+  display: block;
+  color: #ae93d2;
+  font-size: 11px;
+  margin-top: 7px;
+  line-height: 1.5;
+}
+
+.footer-mini {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  font-size: 11px;
+  color: #aa91cc;
+  text-align: center;
+  border: 1px dashed rgba(194, 110, 255, 0.18);
+  background: rgba(255,255,255,0.015);
+  line-height: 1.6;
+}
+
+.processing-dot::after {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  animation: dots 1.2s steps(4, end) infinite;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+@keyframes dots {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+  100% { content: '...'; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px) {
+  .screen { padding: 14px; }
+  .panel { border-radius: 24px; }
+  .title { font-size: 29px; }
+  .main-title { font-size: 26px; }
+  .avatar { width: 104px; height: 104px; }
+}
+
+  </style>
+</head>
+<body>
+  <section id="loginScreen" class="screen active">
+    <div class="panel">
+      <div class="login-wrap">
+        <div class="badge">SECURE ACCESS</div>
+        <h1 class="title">ALDY V2</h1>
+        <p class="subtitle">
+          Masuk dulu untuk membuka halaman utama. Akses hanya tersedia untuk user yang valid.
+        </p><div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Masukkan username" autocomplete="off" />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Masukkan password" />
+    </div>
+
+    <button class="btn" id="loginBtn">MASUK SEKARANG</button>
+    <div class="error-box" id="loginError"></div>
+
+    <p class="login-note">
+      Demo login lokal. Username dan password harus sesuai agar bisa lanjut ke dashboard.
+    </p>
+  </div>
+</div>
+
+  </section>  <section id="mainScreen" class="screen">
+    <div class="panel">
+      <div class="dashboard">
+        <div class="hero">
+          <div class="topbar">
+            <div class="chip">ALDY V2</div>
+            <button class="logout-btn" id="logoutBtn">Logout</button>
+          </div><div class="hero-center">
+        <img
+          id="previewAvatar"
+          class="avatar"
+          src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=500&q=80"
+          alt="Preview"
+        />
+        <div class="main-title">ALDY V2</div>
+        <p class="main-sub">
+          Dashboard simulasi dengan tampilan dark neon. Foto di atas bisa diganti sesuai keinginan.
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Atur Simulation</h3>
+
+      <div class="form-group">
+        <label for="targetId">Masukkan ID</label>
+        <input type="text" id="targetId" placeholder="Contoh: +628123456789" />
+        <small class="helper">ID wajib diawali +62. Selain itu akan dianggap gagal.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="bugSelect">Select Bug</label>
+        <select id="bugSelect">
+          <option>CRASHER V1</option>
+          <option>CRASHER V2</option>
+          <option>WA GROUP XYZ</option>
+          <option>AUTO CRASH</option>
+          <option>DEVIL 666</option>
+          <option>KILL ENEMY</option>
+          <option>HAIR ENEMY</option>
+        </select>
+      </div>
+
+      <button class="btn" id="processBtn">START PROCESS</button>
+      <div class="status-box" id="statusBox"></div>
+
+      <div class="footer-mini">
+        Halaman ini hanya menampilkan simulasi UI lokal: validasi ID, status processing, dan pesan hasil.
+      </div>
+    </div>
+  </div>
+</div>
+
+  </section>  <script>
+    const loginScreen = document.getElementById('loginScreen');
+    const mainScreen = document.getElementById('mainScreen');
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const loginError = document.getElementById('loginError');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const previewAvatar = document.getElementById('previewAvatar');
+    const targetId = document.getElementById('targetId');
+    const bugSelect = document.getElementById('bugSelect');
+    const processBtn = document.getElementById('processBtn');
+    const statusBox = document.getElementById('statusBox');
+
+    const VALID_USERNAME = 'aldy';
+    const VALID_PASSWORD = 'dy11';
+
+    function showLoginError(message) {
+      loginError.textContent = message;
+      loginError.classList.add('show');
+    }
+
+    function hideLoginError() {
+      loginError.textContent = '';
+      loginError.classList.remove('show');
+    }
+
+    function showStatus(message, type = 'default') {
+      statusBox.className = 'status-box show';
+      if (type === 'success') statusBox.classList.add('success');
+      if (type === 'fail') statusBox.classList.add('fail');
+      statusBox.innerHTML = message;
+    }
+
+    function resetStatus() {
+      statusBox.className = 'status-box';
+      statusBox.innerHTML = '';
+    }
+
+    function openMainScreen() {
+      loginScreen.classList.remove('active');
+      mainScreen.classList.add('active');
+      usernameInput.value = '';
+      passwordInput.value = '';
+      hideLoginError();
+    }
+
+    function openLoginScreen() {
+      mainScreen.classList.remove('active');
+      loginScreen.classList.add('active');
+      resetStatus();
+      processBtn.disabled = false;
+      targetId.value = '';
+      bugSelect.selectedIndex = 0;
+    }
+
+    loginBtn.addEventListener('click', () => {
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+
+      if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+        openMainScreen();
+      } else {
+        showLoginError('Username atau password salah. Gunakan akses yang benar untuk masuk.');
+      }
+    });
+
+    passwordInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') loginBtn.click();
+    });
+
+    usernameInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') loginBtn.click();
+    });
+
+    logoutBtn.addEventListener('click', openLoginScreen);
+
+    processBtn.addEventListener('click', () => {
+      resetStatus();
+      const idValue = targetId.value.trim();
+      const selectedMode = bugSelect.value;
+
+      if (!idValue) {
+        showStatus('Gagal: ID masih kosong. Masukkan ID yang diawali <b>+62</b>.', 'fail');
+        return;
+      }
+
+      if (!idValue.startsWith('+62')) {
+        showStatus('Gagal: ID harus diawali <b>+62</b>.', 'fail');
+        return;
+      }
+
+      processBtn.disabled = true;
+      showStatus('Processing<span class="processing-dot"></span><br><small>Mode: <b>' + selectedMode + '</b></small>');
+
+      const delay = Math.floor(Math.random() * 3001) + 5000; // 5000 - 8000 ms
+
+      setTimeout(() => {
+        showStatus('Berhasil!<br><small>ID <b>' + idValue + '</b> telah diproses dalam mode <b>' + selectedMode + '</b>.</small>', 'success');
+        processBtn.disabled = false;
+      }, delay);
+    });
+  </script></body>
+</html>
