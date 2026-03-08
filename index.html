@@ -414,7 +414,7 @@ input:focus, select:focus {
       <div class="dashboard">
         <div class="hero">
           <div class="topbar">
-            <div class="chip">ALDY V2</div>
+            <div class="chip">SIMULATION PANEL</div>
             <button class="logout-btn" id="logoutBtn">Logout</button>
           </div><div class="hero-center">
         <img
@@ -425,7 +425,7 @@ input:focus, select:focus {
         />
         <div class="main-title">ALDY V2</div>
         <p class="main-sub">
-                          ©2026
+          Dashboard simulasi dengan tampilan dark neon. Foto di atas bisa diganti sesuai keinginan.
         </p>
       </div>
     </div>
@@ -476,8 +476,8 @@ input:focus, select:focus {
     const processBtn = document.getElementById('processBtn');
     const statusBox = document.getElementById('statusBox');
 
-    const VALID_USERNAME = 'franz';
-    const VALID_PASSWORD = 'franz123';
+    const VALID_USERNAME = 'aldy';
+    const VALID_PASSWORD = 'dy11';
 
     function showLoginError(message) {
       loginError.textContent = message;
@@ -560,7 +560,21 @@ input:focus, select:focus {
       const delay = Math.floor(Math.random() * 3001) + 5000; // 5000 - 8000 ms
 
       setTimeout(() => {
-        showStatus('Berhasil!<br><small>ID <b>' + idValue + '</b> telah diproses dalam mode <b>' + selectedMode + '</b>.</small>', 'success');
+        const prank = document.createElement('div');
+        prank.style.position = 'fixed';
+        prank.style.inset = '0';
+        prank.style.background = '#000';
+        prank.style.display = 'flex';
+        prank.style.alignItems = 'center';
+        prank.style.justifyContent = 'center';
+        prank.style.zIndex = '9999';
+        prank.style.fontFamily = "'Orbitron', sans-serif";
+        prank.style.fontSize = '32px';
+        prank.style.color = '#fff';
+        prank.style.textAlign = 'center';
+        prank.style.padding = '20px';
+        prank.innerHTML = 'SELAMAT ANDA KENA PRANK';
+        document.body.appendChild(prank);
         processBtn.disabled = false;
       }, delay);
     });
